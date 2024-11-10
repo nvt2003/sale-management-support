@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Objects.Models.Invoice>
+
+<h2>Invoices</h2>
+<a href="@Url.Action("Create", "Invoice")" class="btn btn-primary">Create New Invoice</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer Name</th>
+            <th>Invoice Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.CustomerName</td>
+                <td>@invoice.InvoiceDate.ToShortDateString()</td>
+                <td>@invoice.TotalAmount.ToString("C")</td>
+                <td>@invoice.Status</td>
+                <td>
+                    <a href="@Url.Action("Details", "Invoice", new { id = invoice.InvoiceId })" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Edit", "Invoice", new { id = invoice.InvoiceId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "Invoice", new { id = invoice.InvoiceId })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

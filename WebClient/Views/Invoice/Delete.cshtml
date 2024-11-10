@@ -1,0 +1,41 @@
+﻿@model Objects.DTOs.InvoiceDTO
+
+<h2>Delete Invoice</h2>
+
+<p>Are you sure you want to delete the following invoice?</p>
+
+<div class="form-group">
+    <label for="InvoiceId">Invoice ID</label>
+    <input type="text" class="form-control" id="InvoiceId" value="@Model.InvoiceId" readonly />
+</div>
+
+<div class="form-group">
+    <label for="InvoiceDate">Invoice Date</label>
+    <input type="text" class="form-control" id="InvoiceDate" value="@Model.InvoiceDate.ToShortDateString()" readonly />
+</div>
+
+<div class="form-group">
+    <label for="CustomerName">Customer Name</label>
+    <input type="text" class="form-control" id="CustomerName" value="@Model.CustomerName" readonly />
+</div>
+
+<div class="form-group">
+    <label for="CustomerAddress">Customer Address</label>
+    <input type="text" class="form-control" id="CustomerAddress" value="@Model.CustomerAddress" readonly />
+</div>
+
+<div class="form-group">
+    <label for="TotalAmount">Total Amount</label>
+    <input type="text" class="form-control" id="TotalAmount" value="@Model.TotalAmount.ToString("C")" readonly />
+</div>
+
+<div class="form-group">
+    <label for="Status">Status</label>
+    <input type="text" class="form-control" id="Status" value="@Model.Status" readonly />
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="InvoiceId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "InvoiceMvc")" class="btn btn-secondary">Cancel</a>
+</form>

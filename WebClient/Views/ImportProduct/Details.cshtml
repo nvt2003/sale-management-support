@@ -1,0 +1,29 @@
+﻿@model Objects.DTOs.ImportProductDTO
+
+@{
+    ViewData["Title"] = "Import Product Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <strong>ProductId:</strong> @Model.ProductId
+</div>
+<div>
+    <strong>Quantity:</strong> @Model.Quantity
+</div>
+<div>
+    <strong>Type of Quantity:</strong> @Model.TypeOfQuantity
+</div>
+<div>
+    <strong>Unit Price:</strong> @Model.UnitPrice
+</div>
+<div>
+    <strong>Import Date:</strong> @Model.ImportDate.ToShortDateString()
+</div>
+<div>
+    <strong>Expired Date:</strong> @Model.ExpiredDate.ToShortDateString()
+</div>
+<div>
+    <strong>Notes:</strong> @Model.Notes
+</div>

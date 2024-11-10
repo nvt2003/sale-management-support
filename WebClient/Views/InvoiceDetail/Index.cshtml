@@ -1,0 +1,41 @@
+﻿@model List<Objects.Models.InvoiceDetail>
+
+@{
+    ViewData["Title"] = "Invoice Details";
+}
+
+<h2>Invoice Details</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Invoice Detail ID</th>
+            <th>Invoice ID</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoiceDetail in Model)
+        {
+            <tr>
+                <td>@invoiceDetail.InvoiceDetailId</td>
+                <td>@invoiceDetail.InvoiceId</td>
+                <td>@invoiceDetail.ProductId</td>
+                <td>@invoiceDetail.Quantity</td>
+                <td>@invoiceDetail.UnitPrice</td>
+                <td>
+                    <a href="@Url.Action("Detail", new { id = invoiceDetail.InvoiceDetailId })" class="btn btn-info">View</a>
+                    <a href="@Url.Action("Edit", new { id = invoiceDetail.InvoiceDetailId })" class="btn btn-warning">Edit</a>
+                    <form action="@Url.Action("Delete", new { id = invoiceDetail.InvoiceDetailId })" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create")" class="btn btn-primary">Create New Invoice Detail</a>

@@ -1,0 +1,17 @@
+﻿@model Objects.Models.Customer
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>@Model.CustomerName</h4>
+    <p>Email: @Model.Email</p>
+    <p>Phone: @Model.PhoneNumber</p>
+    <p>Address: @Model.Address</p>
+    <!-- Add more customer details as needed -->
+
+    <a href="@Url.Action("Index", "CustomerMvc")" class="btn btn-secondary">Back to List</a>
+</div>

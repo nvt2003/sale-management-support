@@ -1,0 +1,74 @@
+﻿@model Objects.DTOs.InvoiceDTO
+
+<h2>Create Invoice</h2>
+
+<form asp-action="Create" method="post" autocomplete="off">
+    <div class="form-group">
+        <label for="InvoiceDate">Invoice Date</label>
+        <input type="date" class="form-control" id="InvoiceDate" name="InvoiceDate" required />
+    </div>
+
+    <div class="form-group">
+        <label for="CustomerName">Customer Name</label>
+        <input type="text" class="form-control" id="CustomerName" name="CustomerName" maxlength="50" required />
+    </div>
+
+    <div class="form-group">
+        <label for="CustomerAddress">Customer Address</label>
+        <input type="text" class="form-control" id="CustomerAddress" name="CustomerAddress" maxlength="100" />
+    </div>
+
+    <div class="form-group">
+        <label for="TotalAmount">Total Amount</label>
+        <input type="number" class="form-control" id="TotalAmount" name="TotalAmount" min="0" step="0.01" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Status</label>
+        <select class="form-control" id="Status" name="Status" required>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+            <option value="Overdue">Overdue</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+<!-- Add jQuery and jQuery UI for Autocomplete -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<script>
+    $(document).ready(function () {
+        $("#CustomerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "https://localhost:7260/api/customer",
+                    dataType: "json",
+                    data: {
+                        $select: "CustomerName",
+                        $filter: "startswith(CustomerName, '" + request.term + "')" // Optional: add filtering based on the input term
+                    },
+                    success: function (data) {
+                        var suggestions = data.map(function (item) {
+                            return {
+                                label: item.CustomerName, 
+                                value: item.CustomerName   
+                            };
+                        });
+                        response(suggestions);  
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching autocomplete data:", error);
+                    }
+                });
+            },
+            minLength: 2, 
+            select: function (event, ui) {
+                console.log("Customer Selected: ", ui.item.value);
+            }
+        });
+    });
+</script>

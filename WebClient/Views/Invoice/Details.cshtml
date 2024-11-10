@@ -1,0 +1,152 @@
+﻿@model Objects.Models.Invoice
+
+<h2>Invoice Details</h2>
+<div class="d-flex">
+    <div class="col-4">
+        <div class="form-group">
+            <label for="InvoiceId">Invoice ID</label>
+            <p id="InvoiceId"><span>@Model.InvoiceId</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="InvoiceDate">Invoice Date</label>
+            <p id="InvoiceDate"><span>@Model.InvoiceDate.ToShortDateString()</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="CustomerName">Customer Name</label>
+            <p id="CustomerName"><span>@Model.CustomerName</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="CustomerAddress">Customer Address</label>
+            <p id="CustomerAddress"><span>@Model.CustomerAddress</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="TotalAmount">Total Amount</label>
+            <p id="TotalAmount"><span>@Model.TotalAmount.ToString("C")</span></p>
+        </div>
+
+        <div class="form-group">
+            <label for="Status">Status</label>
+            <p id="Status"><span>@Model.Status</span></p>
+        </div>
+
+        
+    </div>
+    <div class="col-8">
+        <div class="border border-top border-1">
+            <div>Details:</div>
+            @if (Model.InvoiceDetails != null)
+            {
+                @foreach (var item in Model.InvoiceDetails)
+                {
+                    <div class="border border-bottom">
+                        <p>Product cost: @item.ProductId</p>
+                        <p>Name: @item.Product.ProductName</p>
+                        <p>Price: @item.Product.Price</p>
+                    </div>
+                }
+            }
+            <div>
+                <h4>Add new:</h4>
+                <form id="invoiceDetailForm">
+                    <div class="form-group">
+                        <label for="InvoiceDetailId">Invoice ID</label>
+                        <input type="number" id="InvoiceDetailId" name="InvoiceDetailId" class="form-control" value="@Model.InvoiceId" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ProductId">Product</label>
+                        @* <input type="text" id="ProductId" name="ProductId" class="form-control" value="@ViewBag.ProductId" required maxlength="5" />
+                        @if (ViewData.ModelState["ProductId"]?.Errors.Count > 0)
+                        {
+                            <div class="text-danger">@ViewData.ModelState["ProductId"]?.Errors[0]?.ErrorMessage</div>
+                        } *@
+                        <select id="ProductDetailId" name="ProductDetailId" onchange="changeProduct()" required>
+                            <option value="">Select Product</option>
+                            @foreach (var product in ViewData["ProductCodes"] as List<Objects.Models.Product>)
+                            {
+                                <option value="@product.ProductCode">@product.ProductName</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Quantity">Quantity</label>
+                        <input type="number" id="Quantity" name="Quantity" class="form-control" value="@ViewBag.Quantity" required />
+                        @if (ViewData.ModelState["Quantity"]?.Errors.Count > 0)
+                        {
+                            <div class="text-danger">@ViewData.ModelState["Quantity"]?.Errors[0]?.ErrorMessage</div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UnitPrice">Unit Price</label>
+                        <input type="number" id="UnitPrice" name="UnitPrice" class="form-control" value="@ViewBag.UnitPrice" required />
+                        @if (ViewData.ModelState["UnitPrice"]?.Errors.Count > 0)
+                        {
+                            <div class="text-danger">@ViewData.ModelState["UnitPrice"]?.Errors[0]?.ErrorMessage</div>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<a href="@Url.Action("Index", "Invoice")" class="btn btn-secondary">Back to List</a>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#invoiceDetailForm').submit(function (event) {
+                event.preventDefault();
+
+                const InvoiceId = $('#InvoiceDetailId').val();
+                const ProductId = $('#ProductDetailId').val();
+                const Quantity = $('#Quantity').val();
+                const UnitPrice = $('#UnitPrice').val();
+
+                $.ajax({
+                    url: '@Url.Action("Create", "InvoiceDetail")',
+                    type: 'POST',
+                    data: {
+                        InvoiceId: InvoiceId,
+                        ProductId: ProductId,
+                        Quantity: Quantity,
+                        UnitPrice: UnitPrice
+                    },
+                    success: function (response) {
+                        alert('Invoice detail created successfully!');
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            });
+        });
+        function changeProduct(){
+                const ProductId = $('#ProductDetailId').val();
+                $.ajax({
+                    url: '@Url.Action("GetProductById", "Product")',
+                    type: 'POST',
+                    data: {
+                        ProductId: ProductId
+                    },
+                    success: function (response) {
+                        $("#UnitPrice").val(response.price);
+                        //window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+        }
+    </script>
+}
+

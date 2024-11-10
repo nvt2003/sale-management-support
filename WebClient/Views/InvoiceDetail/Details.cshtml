@@ -1,0 +1,26 @@
+﻿@model Objects.Models.InvoiceDetail
+
+@{
+    ViewData["Title"] = "Invoice Detail";
+}
+
+<h2>Invoice Detail</h2>
+
+<div>
+    <strong>Invoice Detail ID:</strong> @Model.InvoiceDetailId
+</div>
+<div>
+    <strong>Invoice ID:</strong> @Model.InvoiceId
+</div>
+<div>
+    <strong>Product ID:</strong> @Model.ProductId
+</div>
+<div>
+    <strong>Quantity:</strong> @Model.Quantity
+</div>
+<div>
+    <strong>Unit Price:</strong> @Model.UnitPrice
+</div>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+<a href="@Url.Action("Edit", new { id = Model.InvoiceDetailId })" class="btn btn-warning">Edit</a>

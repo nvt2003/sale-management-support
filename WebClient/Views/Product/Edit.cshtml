@@ -1,0 +1,52 @@
+﻿@model Objects.DTOs.ProductDTO
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label for="ProductCode">Product Code</label>
+        <input type="text" id="ProductCode" name="ProductCode" class="form-control" value="@Model.ProductCode" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="ProductName">Product Name</label>
+        <input type="text" id="ProductName" name="ProductName" class="form-control" value="@Model.ProductName" required maxlength="50" />
+        @if (ViewData.ModelState["ProductName"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["ProductName"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="ProductDescription">Product Description</label>
+        <textarea id="ProductDescription" name="ProductDescription" class="form-control" maxlength="250">@Model.ProductDescription</textarea>
+        @if (ViewData.ModelState["ProductDescription"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["ProductDescription"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" id="Price" name="Price" class="form-control" value="@Model.Price" required />
+        @if (ViewData.ModelState["Price"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["Price"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="CategoryId">Category</label>
+        <select id="CategoryId" name="CategoryId" class="form-control" asp-for="CategoryId" required>
+            <option value="">Select Category</option>
+            @foreach (var category in ViewData["Categories"] as List<Objects.Models.Category>)
+            {
+                <option value="@category.CategoryId">@category.CategoryName</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>

@@ -1,0 +1,45 @@
+﻿@model Objects.DTOs.InvoiceDetailDTO
+
+@{
+    ViewData["Title"] = "Create Invoice Detail";
+}
+
+<h2>Create New Invoice Detail</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="InvoiceId">Invoice ID</label>
+        <input type="number" id="InvoiceId" name="InvoiceId" class="form-control" value="@Model.InvoiceId" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ProductId">Product ID</label>
+        <input type="text" id="ProductId" name="ProductId" class="form-control" value="@Model.ProductId" required maxlength="5" />
+        @if (ViewData.ModelState["ProductId"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["ProductId"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="Quantity">Quantity</label>
+        <input type="number" id="Quantity" name="Quantity" class="form-control" value="@Model.Quantity" required />
+        @if (ViewData.ModelState["Quantity"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["Quantity"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="UnitPrice">Unit Price</label>
+        <input type="number" id="UnitPrice" name="UnitPrice" class="form-control" value="@Model.UnitPrice" required />
+        @if (ViewData.ModelState["UnitPrice"]?.Errors.Count > 0)
+        {
+            <div class="text-danger">@ViewData.ModelState["UnitPrice"]?.Errors[0]?.ErrorMessage</div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>

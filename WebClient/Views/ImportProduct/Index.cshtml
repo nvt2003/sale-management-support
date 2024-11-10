@@ -1,0 +1,41 @@
+﻿@model List<Objects.Models.ImportProduct>
+
+@{
+    ViewData["Title"] = "Import Products";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<a href="@Url.Action("Create", "ImportProduct")">Create</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Code</th>
+            <th>Quantity</th>
+            <th>Type of Quantity</th>
+            <th>Unit Price</th>
+            <th>Import Date</th>
+            <th>Expired Date</th>
+            <th>Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.Quantity</td>
+                <td>@product.TypeOfQuantity</td>
+                <td>@product.UnitPrice</td>
+                <td>@product.ImportDate.ToShortDateString()</td>
+                <td>@product.ExpiredDate.ToShortDateString()</td>
+                <td>@product.Notes</td>
+                <td>
+                    <a href="@Url.Action("Details", "ImportProduct", new { id = product.Id })">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
